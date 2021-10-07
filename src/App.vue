@@ -20,7 +20,7 @@ export default {
 	components: { Tarefa, InputTarefa, ProgressBar },
 	data() {
 		return {
-			tarefas: [{name: 'Lavar a louça', completed: false}]
+			tarefas: []
 		}
 	},
 	methods: {
@@ -34,6 +34,18 @@ export default {
 			const newTarefa = Object.assign({}, tarefa);
 			this.tarefas.push(newTarefa);
 		}
+	},
+	watch: {
+		tarefas: {
+			deep: true,
+			handler() {
+				localStorage.setItem('tarefas', JSON.stringify(this.tarefas));
+			}
+		}
+	},
+	created() {
+		const json = localStorage.getItem('tarefas');
+		this.tarefas = JSON.parse(json) || []
 	}
 }
 </script>
